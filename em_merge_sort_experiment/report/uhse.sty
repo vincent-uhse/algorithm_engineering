@@ -1,0 +1,304 @@
+% @author Vincent Uhse
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{tabularx}
+\usepackage{caption}
+
+
+\usepackage[english]{babel}
+\usepackage{lmodern}
+
+% \usepackage{slantsc}
+% \usepackage{array}
+
+
+% Another beautiful font
+% \usepackage[lf]{FiraSans}
+% \usepackage{FiraSans}
+
+
+\usepackage{siunitx}
+
+%\usepackage[sfdefault]{FiraSans}
+
+% \usepackage{showframe}
+
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+
+
+% \usepackage{lmodern}
+
+\usepackage{amsmath}
+\allowdisplaybreaks  % proof multiple pages
+% \usepackage{stmaryrd}
+\usepackage{mathpazo}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{framed}
+
+%\usepackage[a4paper, left = 2cm, right = 2cm, top = 2.5cm, bottom = 2.5cm]{geometry}
+
+\usepackage{color}
+\usepackage[x11names]{xcolor}
+% \usepackage{yfonts}
+%\usepackage[skins]{tcolorbox}
+\usepackage[most]{tcolorbox}
+%\uepackage{tcolorbox}
+\definecolor{ggray}{rgb}{0.25,0.25,0.25}
+\definecolor{almond}{rgb}{0.94, 0.87, 0.8}
+\definecolor{cerulean}{rgb}{0.0, 0.48, 0.65}
+\definecolor{ceruleanblue}{rgb}{0.16, 0.32, 0.75}
+\definecolor{antiquewhite}{rgb}{0.98, 0.92, 0.84}
+\definecolor{cosmiclatte}{rgb}{1.0, 0.97, 0.91}
+\definecolor{bubbles}{rgb}{0.91, 1.0, 1.0}
+\definecolor{navyblue}{rgb}{0.0, 0.0, 0.5}
+\usepackage{enumitem}
+
+\newlist{enum}{enumerate}{1}
+\setlist[enumerate,1]{label=\arabic*)}
+%\setlist[enumerate,2]{label*=\roman*)} 2)i) concatenation
+\setlist[enumerate,2]{label=\alph*)}
+\setlist[enumerate, 3]{label=\roman.}
+
+%\newlist{enum}{enumerate}{1} % 1), 2)
+%\setlist[enum]{label*={\arabic* )}}
+%
+%\newlist{alph}{enumerate}{1} % a) b) c)
+%\setlist[alph]{label*=(\alph*)}
+%
+%\newlist{latin}{enumerate}{1}
+%\setlist[latin]{label*={\roman*. }} % i., ii.
+
+\usepackage{mathtools}
+\usepackage{listings}
+\usepackage{verbatim} 
+\usepackage{fancyvrb}
+%TODO: set language options
+\lstset{% setup listings
+	language=C,% set programming language
+	% basicstyle=\scriptsize,% basic font style
+	keywordstyle= \color{ceruleanblue}\bfseries,% keyword style
+	commentstyle= \color{ggray} \ttfamily\itshape,% comment style
+	% numbers=left,% display line numbers on the left side
+	% numberstyle=\scriptsize,% use small line numbers
+	% numbersep=10pt,% space between line numbers and code
+	%tabsize=3,% sizes of tabs
+	showstringspaces=false,% do not replace spaces in strings by a certain character
+	captionpos=b,% positioning of the caption below
+	breaklines=true,% automatic line breaking
+	escapeinside={(*}{*)},% escaping to LaTeX
+	fancyvrb=true,% verbatim code is typset by listings
+	extendedchars=false,% prohibit extended chars (chars of codes 128--255)
+	literate={"}{{\texttt{"}}}1{<-}{{$\leftarrow$}}1{<<-}{{$\twoheadleftarrow$}}1
+	{~}{{$\sim$}}1{<=}{{$\le$}}1{>=}{{$\ge$}}1{!=}{{$\neq$}}1{^}{{$^\wedge$}}1,% item to replace, text, length of chars
+	alsoletter={.<-},% becomes a letter
+	alsoother={$},% becomes other
+	%otherkeywords={!=, ~, $, *, \&, \%/\%, \%*\%, \%\%, <-, <<-, /},% other keywords
+	deletekeywords={c}% remove keywords
+}
+
+\usepackage{caption}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox{ceruleanblue}{\parbox{\textwidth}{#1#2#3}}}
+\captionsetup[lstlisting]{format = listing, labelfont = white, textfont = white}
+
+\usepackage{pgffor}  % to build a loop
+
+% TODO: choose pagestyle
+% \pagestyle{empty} 
+% \pagestyle{plain} 
+
+% for drawing a circle around something (e.g. a number)
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+		\node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+
+\newcommand{\ee}{é}
+\newcommand{\e}{è}
+
+% \AtBeginDocument{ \newenvironment{rcomment}[1]{&& \tag*{\colorbox{almond}{\footnotesize{#1}}}}{} }
+% \AtBeginDocument{ \newenvironment{rmcomment}[1]{&& \tag*{\colorbox{almond}{\footnotesize{#1}}}}{} }
+% fcomment and rcomment are comment environments
+% \newenvironment{fcomment}[1]{\\ & {\colorbox{almond}{\footnotesize{#1}}{}}}
+
+% \d sets the differential operator d straight
+\AtBeginDocument{ \renewcommand*\d{\mathop{}\!\mathrm{d}} } 
+
+\newcommand{\dl}{\ensuremath{ \mathop{}\!\partial} }
+\newcommand{\dd}{\ensuremath{ \mathop{}\!\mathrm{d}} }
+\newcommand{\DD}[1]{\ensuremath{ \mathop{}\!\mathrm{D}} }
+\newcommand{\eps}{\ensuremath{ \mathop{}\!\varepsilon} }
+\newcommand{\grad}{\ensuremath{ \mathop{}\!\nabla} }
+\renewcommand{\l}{\ensuremath{ \mathop{}\!\left } }
+\renewcommand{\r}{\ensuremath{ \mathop{}\!\right } }
+
+% arrows
+\newcommand{\lra}{\ensuremath{\quad \Leftrightarrow \quad }}
+\newcommand{\lr}{\ensuremath{\quad \leftrightarrow \quad }}
+\newcommand{\ra}{\ensuremath{\quad \Rightarrow \quad }}
+\newcommand{\la}{\ensuremath{\quad \Leftarrow \quad }}
+
+\newcommand{\rra}{\ensuremath{\quad \rightarrow \quad }}
+\newcommand{\lla}{\ensuremath{\quad \leftarrow \quad }}
+\newcommand{\da}{\ensuremath{\quad \Downarrow \quad }}
+
+\newcommand{\toa}{\ensuremath{\quad \leadsto \quad }}
+
+\newcommand{\abs}[1]{\ensuremath{\left |{#1}\right |}}
+\newcommand{\norm}[1]{\ensuremath{\left\|{#1}\right\|}}
+\newcommand{\inner}[1]{\ensuremath{\left\langle {#1}\right\rangle}}
+\newcommand{\<}{\ensuremath{\langle}}
+\renewcommand{\>}{\ensuremath{\rangle}}
+
+\let\oldtextbf=\textbf
+\renewcommand\textbf[1]{{\boldmath\oldtextbf{#1}}}
+%\newcommand{\fat}[1]{{ \boldmath{\textbf{#1}}}} % fat everywhere
+\newcommand{\fat}[1]{\textbf{#1}} % uses the fat everywhere redefined textbf
+\newcommand{\tfat}[1]{{ \textbf{#1}}} % fat in text
+\newcommand{\mfat}[1]{{\ensuremath{\mathbf {#1}}}} % fat math
+\newcommand{\italic}[1]{{\textit{#1}\normalfont}} % alternatively, just use \emph{}
+
+\newcommand{\ihat}{\ensuremath{\hat{\textbf{\i}}}}
+\newcommand{\jhat}{\ensuremath{\hat{\textbf{\j}}}}
+\newcommand{\khat}{\ensuremath{\hat{\textbf{k}}}}
+
+\newcommand{\adj}{\ensuremath{{\mathrm{adj}}}}
+\newcommand{\minor}{\ensuremath{{\mathrm{minor}}}}
+\newcommand{\tr}{\ensuremath{{\mathrm{trace}}}}
+%\newcommand{\span}{\ensuremath{{\mathrm  Span}}} % span not allowed: already defined
+\newcommand{\rem}{\ensuremath{{\mathrm{rem}}}}
+%\newcommand{\rk}{\ensuremath{{\mathrm  rank}}}
+%\newcommand{\ker}[1]{\ensuremath{\text{ker \left ( #1 \right )}}}
+%\newcommand{\im}[1]{\ensuremath{\text{im \left ( #1 \right )}}
+%\newcommand{\rk}[1]{\ensuremath{\text{rk \left ( #1 \right )}}
+%\newcommand{\dim}{\ensuremath{{\rk dim}}}
+\newcommand{\img}[1]{\ensuremath{{\mathrm{Bild} }}}
+\newcommand{\range}{\ensuremath{{\mathrm{range}}}}
+\newcommand{\mdiv}{\ensuremath{{\mathrm{div}}}}
+\newcommand{\proj}{\ensuremath{{\mathrm{proj}}}}
+\newcommand{\rea}{\ensuremath{{\mathrm{Re}}}}
+\newcommand{\ima}{\ensuremath{{\mathrm{Im}}}}
+\newcommand{\card}{\ensuremath{{\mathrm{card}}}}
+\newcommand{\const}{\ensuremath{{\mathrm{const.}}}}
+\newcommand{\id}{\ensuremath{{\mathrm{id}}}}
+
+% mathbb Symbols
+\newcommand{\T}{\ensuremath{\mathbb{T}}}
+\newcommand{\Q}{\ensuremath{\mathbb{Q}}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\IP}{\ensuremath{\mathbb{P}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\K}{\ensuremath{\mathbb{K}}}
+
+\newcommand{\cT}{\ensuremath{\mathcal{T}}}
+\newcommand{\cF}{\ensuremath{\mathcal{F}}}
+\newcommand{\cQ}{\ensuremath{\mathcal{Q}}}
+\newcommand{\cC}{\ensuremath{\mathcal{C}}}
+\newcommand{\cN}{\ensuremath{\mathcal{N}}}
+\newcommand{\cP}{\ensuremath{\mathcal{P}}}
+\newcommand{\cZ}{\ensuremath{\mathcal{Z}}}
+\newcommand{\cR}{\ensuremath{\mathcal{R}}}
+\newcommand{\cK}{\ensuremath{\mathcal{K}}}
+\newcommand{\cU}{\ensuremath{\mathcal{U}}}
+
+\newcommand{\code}[1]{\texttt{#1}}
+
+% \renewcommand{\qedsymbol}{\( \blacksquare \)}
+\newcommand{\qedsymbol}{\( \blacksquare \)}
+
+%\theoremstyle{plain}
+%
+% \colorlet{shadecolor}{yellow!15}
+%
+%%\usepackage[most]{tcolorbox}
+%
+%\tcbset{lemmastyle/.style={title={},breakable,colback=shadecolor,enhanced jigsaw,boxrule=0pt,sharp corners,colframe=shadecolor,boxsep=0pt,colbacktitle={shadecolor},coltitle={black},attach title to upper={},fonttitle={\bfseries},
+%		title after break={Lemma \thelemma\ (continued)}}}
+%
+%\tcbset{theostyle/.style={title={},breakable,colback=shadecolor,enhanced jigsaw,boxrule=0pt,sharp corners,colframe=shadecolor,boxsep=0pt,colbacktitle={shadecolor},coltitle={black},attach title to upper={}, fonttitle={\bfseries},
+%		title after break={Theorem \thetheorem\ (continued)}}}
+%
+%\theoremstyle{definition} %Also: plain, definition, remark
+
+% \newtheorem{lemma}{Lemma}[chapter] 
+% \theoremstyle{definition} %Also: plain, definition, remark
+% \newtheorem{theorem}[lemma]{Theorem} 
+
+%%\tcbuselibrary{theorems}
+%%\usepackage[most]{tcolorbox}
+%\newtcbtheorem[section]{definition}{Definition}{
+%	lower separated=true,
+%	colback=yellow!15, %große Fläche
+%	colframe=yellow!15, %großer Rand
+%	colbacktitle=yellow!15, % kleine Fläche
+%	coltitle=black,
+%	enhanced,
+%	top=5mm,
+%	boxed title style={colframe=yellow!15}, %white!80!blue %kleiner Rand
+%	attach boxed title to top left={xshift=0.5cm,yshift=-3.5mm},
+%	arc=5mm 
+%}{def}
+%\newtcbtheorem[section]{satz}{Satz}{
+%	lower separated=true,
+%	colback=yellow!15, %große Fläche
+%	colframe=yellow!15, %großer Rand
+%	colbacktitle=yellow!15, % kleine Fläche
+%	coltitle=black,
+%	enhanced,
+%	top=5mm,
+%	boxed title style={colframe=yellow!15}, %white!80!blue %kleiner Rand
+%	attach boxed title to top left={xshift=0.5cm,yshift=-3.5mm},
+%	arc=5mm 
+%}{satz}
+
+% \theoremstyle{definition}
+
+% \newtheorem{thm}{Theorem}[section]
+% \newtheorem{definition}[thm]{Definition}
+
+% \newtheorem{theorem}[thm]{Theorem}
+% \newtheorem{satz}[thm]{Satz}
+% \newtheorem{lemma}[thm]{Lemma}
+% \newtheorem {hilfssatz}[thm]{Hilfssatz}
+% \newtheorem{remark}[thm]{Bemerkung}
+% \newtheorem{example}[thm]{Beispiel}
+% \newtheorem{corollary}[thm]{Korollar}
+% \newtheorem{exercise}[thm]{Aufgabe}
+% \newtheorem{algorithm}[thm]{Algorithmus}
+% \newtheorem{hypothesis}[thm]{Hypothese}
+% \newtheorem{theory}[thm]{Theorie}
+% \newtheorem{concept}[thm]{Konzept}
+% \newtheorem{idea}[thm]{Idee}
+% \newtheorem{folgerung}[thm]{Folgerung}
+% \newtheorem{vorschau}[thm]{Vorschau}
+% \newtheorem{preview}[thm]{Preview}
+
+% \newtheorem*{definition*}{Definition}
+% \newtheorem*{theorem*}{Theorem}
+% \newtheorem*{satz*}{Satz}
+% \newtheorem*{lemma*}{Lemma}
+% \newtheorem*{hilfssatz*}{Hilfssatz}
+% \newtheorem*{remark*}{Bemerkung}
+% \newtheorem*{example*}{Beispiel}
+% \newtheorem*{corollary*}{Korollar}
+% \newtheorem*{exercise*}{Aufgabe}
+% \newtheorem*{algorithmus*}{Algorithmus}
+% \newtheorem*{hypothesis*}{Hypothese}
+% \newtheorem*{theory*}{Theorie}
+% \newtheorem*{concept*}{Konzept}
+% \newtheorem*{idea*}{Idee}
+% \newtheorem*{folgerung*}{Folgerung}
+% \newtheorem*{vorschau*}{Vorschau}
+% \newtheorem*{preview*}{Preview}
+
+% Definition style environments
+%\newtheorem{theorem}[definition]{Theorem}
+%\newtheorem{satz}[definition]{Satz}
+%\newtheorem{lemma}[definition]{Lemma}
+%\newtheorem{remark}[definition]{Bemerkung}
+%\newtheorem{example}[definition]{Beispiel}
+%\newtheorem{corollary}[definition]{Korollar}
+%\newtheorem{exercise}[definition]{Aufgabe}

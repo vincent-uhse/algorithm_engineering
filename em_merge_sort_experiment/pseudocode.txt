@@ -1,0 +1,76 @@
+Description:
+The function should process each two consecutive blocks
+of length stream_block_size or less, if the file ends. However, these two big blocks
+cannot be held in memory. Therefore, the merge_round function should only 
+load the a small block that has size blocksize (or less if the ends) of the first big block
+together with another small block of size blocksize (or less if the file ends) of the second big block into memory.
+These are sorted (because the bigger blocks are sorted).
+We want to merge the big blocks, but can only holds small blocks in the buffer. For this, we pick the smallest element of the two small
+blocks and write it into an output buffer, then make an index shift, so that we don’t pick
+this element again. We iterate until the output buffer that also has size blocksize is filled,
+then write it into the output_file.  When all elements of one of the small blocks have been picked,
+we load the next small block of the same bigger block from the input file, and if there is 
+no such block any more, then the rest of the other big block can be written in the output file.
+
+small block 1 and small block 2 need to come from two consecutive big blocks of size streamblockszie
+
+when a small block is consumed in the merging, the next small block from the same big block should be loaded into memory to continue the merging, while the not-consumed block remains, we manage the consumption with indices.
+
+What is held in memory should only be small blocks (and the output buffer block)
+
+
+Pseudocode for the merge_round function:
+
+merge_round(char* input_file, char* output_file, input_size, stream_block_size, block_size)
+
+    // i, i_1, j, j_1 are global indices regarding the input file
+    // i and i_1 are used for input buffer 1
+    // j and j_1 are used for input buffer 2
+
+    if input_size == 0
+        print information and done with method
+    i = 0
+    i_1 = min(input_size, i + block_size)
+    if input_size < i + stream_block_size 
+        write from i to i % stream_block_size == 0 into the output, using blocks of size block_size
+        making use of the output buffer, streaming blocks through the output buffer, into output file
+    else
+        j = stream_block_size
+        j_1 = min(input_size, j + block_size)
+    
+    load block from i to i_1 into buffer_1
+    load block from j to j_1 into buffer_2
+
+    while i < i_1 and j < j_1 and k < k_1
+        if buffer_1[i % block_size] < buffer_j[j % block_size]
+            output_buffer[k++ % block_size] = buffer_1[i++ % block_size]
+        else
+            output_buffer[k++ % block_size] = buffer_2[j++ % block_size]
+        if i == i_1
+            // In this situation, buffer_2 has nothing to offer
+            write to output_buffer/to output
+        else if i % stream_block_size == 0
+            write from j to min(input_size, i + stream_block_size) into the output, using blocks of size block_size
+            making use of the output buffer, streaming blocks through the output buffer, into output file 
+        else
+            load block from i to i_1 := min(input_size, i + block_size) into buffer_1
+        
+        if j == j_1
+            if j == input_size or j % stream_block_size == 0
+                write from i until i % stream_block_size == 0 into the output, using blocks of size block_size
+                making use of the output buffer, streaming blocks through the output buffer, into output file 
+            else
+                load block from j to j_1 := min(input_size, j + block_size) into buffer_2
+        
+        if i % stream_block_size == 0 and j % stream_block_size == 0 and j < input_size
+            i += 2 * stream_block_size
+            i_1 = min(input_size, i + block_size)
+            if input_size < i + stream_block_size 
+                write from i until i % stream_block_size == 0 into the output, using blocks of size block_size
+                making use of the output buffer, streaming blocks through the output buffer, into the output file
+            else 
+                j += 2 * stream_block_size
+                j_1 = min(input_size, j + block_size)
+            
+    
+

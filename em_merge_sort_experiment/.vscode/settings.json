@@ -1,0 +1,9 @@
+{
+  "files.associations": {
+    "classical_merge_sort.h": "c"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true
+  }
+}

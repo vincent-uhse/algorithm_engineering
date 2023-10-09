@@ -1,0 +1,16 @@
+env_python/
+.env
+!report/*.pdf
+!report/*.svg
+!report/*.png
+*.pdf
+*.svg
+*.png
+*.html
+*.aux
+*.dvi
+*.log
+*.out
+*.dSYM
+*.bin
+*.out
