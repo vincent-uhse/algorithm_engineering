@@ -1,4 +1,5 @@
 !report/*.pdf
+!report.pdf
 
 env_python/
 .env
