@@ -1,11 +1,11 @@
 env_python/
 .env
-!report/*.pdf
-!report/*.svg
-!report/*.png
 *.pdf
 *.svg
 *.png
+!report/*.pdf
+!report/*.svg
+!report/*.png
 *.html
 *.aux
 *.dvi
