@@ -55,6 +55,20 @@ If there are many input files on which the algorithms run, choose this one inste
 cd vis && rm *.html *.svg *.png ; cd ../src && python visualization.py && cd ../vis && chromium --new-window visualization.html kde_plot.html && cd ..
 ```
 
+#### OpenSearch-Elasticsearch Hybrid Stack
+It is possible to inspect the data with an OpenSearch stack. We use LogStash from Elastic and otherwise the OpenSearch stack.
+These steps are necessary in order to get the cluster running. 
+Start the OpenSearch cluster with `cd opensearch && docker compose up -d && cd ..`.
+Configure the data node(s) to not use SSL for the HTTP and restart the node(s).
+Build the custom LogStash image that additionally contains the OpenSearch plugin. 
+Then start LogStash. 
+```
+docker run -d --name my-logstash   --network=opensearch_opensearch-net   -v ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf   -v ./logstash/logstash.yml:/usr/share/logstash/config/logstash.yml   -v ./res/:/usr/share/logstash/res/   custom-logstash
+```
+Access OpenSearch Dashboards at `http://0.0.0.0:5601/app/home`.
+Create or refresh the index pattern, of the index that LogStash uses to publish to OpenSearch, e.g., of the index `results_index`.
+Use the predefined dashboard visualization frame `opensearch/scaling_start.iframe` or create your own visualizations.
+
 ### Notification
 Since the experiments take a long time, there is a way to get notified when the processing is done.
 For this to work, you need to set up a `.env` file with your bot token and chat id, like this:
