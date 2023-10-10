@@ -17,7 +17,7 @@ We provide several different scripts for different purposes. These can be couple
 
 ## How To Run the Code
 
-### Testing $\leftrightarrow$ Analysis Toggle Configuration
+### Testing $\leftrightarrow$ Analysis Toggle Configuration (basic)
 If you want to run the tests or inspect the correct behaviour of the External Merge Sort algorithm, set 
 
 `int do_test = 1;`
@@ -32,7 +32,7 @@ in `src/main.c`. You can use the debug flags to step through the code if you wis
   }
   ```
 
-### Compilation $\rightarrow$ Execution
+### Compilation $\rightarrow$ Execution (basic)
 
 Compile and run the code with 
 ```
@@ -55,16 +55,18 @@ If there are many input files on which the algorithms run, choose this one inste
 cd vis && rm *.html *.svg *.png ; cd ../src && python visualization.py && cd ../vis && chromium --new-window visualization.html kde_plot.html && cd ..
 ```
 
-#### OpenSearch-Elasticsearch Hybrid Stack
-It is possible to inspect the data with an OpenSearch stack. We use LogStash from Elastic and otherwise the OpenSearch stack.
+#### OpenSearch Stack
+It is possible to inspect the data with an OpenSearch stack. This is a flexible approach for data visualization and 
+alleviates some data format configuration hurdles when compared to the Python/Plotly/Matplotlib data visualization method.
 
 These steps are necessary in order to get the stack running:
 * Start the OpenSearch cluster with `cd opensearch && docker compose up -d && cd ..`.
 * Configure the data node(s) to not use SSL for the HTTP and restart the node(s).
-* Build the custom LogStash image that additionally contains the OpenSearch plugin. 
-* Then start LogStash. 
+Log into the nodes with (here Node 2 as an example) with `docker exec -it opensearch-node2 /bin/bash`. Configure the security setting and exit with the command 
+`cd config && sed -i 's/plugins.security.ssl.http.enabled: true/plugins.security.ssl.http.enabled: false/' opensearch.yml && exit`.
+* Then start LogStash. Use absolute paths instead for the volumes if required.  
   ```
-  docker run -d --name my-logstash   --network=opensearch_opensearch-net   -v ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf   -v ./logstash/logstash.yml:/usr/share/logstash/config/logstash.yml   -v ./res/:/usr/share/logstash/res/   custom-logstash
+  docker run -d --name logstash --network=opensearch_opensearch-net -v ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf   -v ./logstash/logstash.yml:/usr/share/logstash/config/logstash.yml   -v ./res/:/usr/share/logstash/res/ opensearchproject/logstash-oss-with-opensearch-output-plugin:latest
   ```
 * Access OpenSearch Dashboards at [http://0.0.0.0:5601/app/home](http://0.0.0.0:5601/app/home).
 * Create or refresh the index pattern, of the index that LogStash uses to publish to OpenSearch, e.g., of the index `results_index`.
@@ -82,6 +84,14 @@ Get notified with the algorithm analysis results as soon as the results are avai
 cd src && python notification.py && cd ..
 ```
 
+### Compilation $\rightarrow$ Execution $\rightarrow$ Notification (recommended)
+Fall back to the recommended option if you are satisfied with the OpenSearch stack for the visualization and
+if you do not want to configure the Python visualization or the hypothesis tests before the notification.
+For the algorithm analysis in conjunction with creating the new visualization, execute this line 
+```
+cd src && gcc -O3 -march=native -funroll-loops -flto -m64 -std=c11 -Wall -Wpedantic main.c classical_merge_sort.c -o ../bin/main.out && ../bin/main.out && python notification.py && cd ..
+```
+
 ### Compilation $\rightarrow$ Execution $\rightarrow$ Visualization
 For the algorithm analysis in conjunction with creating the new visualization, execute this line 
 ```
@@ -90,7 +100,7 @@ cd src && gcc -O3 -march=native -funroll-loops -flto -m64 -std=c11 -Wall -Wpedan
 (given that the browser `Chromium` is installed).
 
 ### Compilation $\rightarrow$ Execution $\rightarrow$ Visualization $\rightarrow$ Notification
-Use this command for the entire process.
+Use this command for the entire process. This can even be extended to include the hypothesis testing process.
 ```
 cd src && gcc -O3 -march=native -funroll-loops -flto -m64 -std=c11 -Wall -Wpedantic main.c classical_merge_sort.c -o ../bin/main.out && ../bin/main.out && cd ../vis && rm *.html *.svg *.png ; cd ../src && python visualization.py && chromium --new-window visualization.html kde_plot.html && cd ../src && python notification.py && cd ..
 ```
