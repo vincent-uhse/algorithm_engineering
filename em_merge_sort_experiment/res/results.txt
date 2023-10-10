@@ -1689,3 +1689,9 @@
               0,     1000000000,      250000000,        4000.00 MB,        1000.00 MB,     368.623647,     337.457571,            nan,            nan,              1,              0,              1,             ThinkPadT570
               0,      500000000,      250000000,        2000.00 MB,        1000.00 MB,     111.517837,     110.609716,     191.247049,     162.175644,              0,             29,              1,             ThinkPadT570
               0,      100000000,      250000000,         400.00 MB,        1000.00 MB,      22.065536,      21.871011,      20.350089,      19.992505,              0,             27,              1,             ThinkPadT570
+      File_Seed      Input_Size      Block_Size        Input_MB        Block_MB    Elapsed_Wall     Elapsed_CPU  Classical_Wall   Classical_CPU    Merge_Rounds Classical_Rounds     Sort_Option                 Host_Name
+
+              0,    10000000000,      250000000,       40000.00 MB,        1000.00 MB,    3870.500393,    3620.779001,            nan,            nan,              4,              0,              1,   BookBook-Pro.fritz.box
+              0,     1000000000,      250000000,        4000.00 MB,        1000.00 MB,     253.941984,     247.234950,            nan,            nan,              1,              0,              1,   BookBook-Pro.fritz.box
+              0,      500000000,      250000000,        2000.00 MB,        1000.00 MB,     106.082029,     105.050424,     193.937115,     191.867380,              0,             29,              1,   BookBook-Pro.fritz.box
+              0,      100000000,      250000000,         400.00 MB,        1000.00 MB,      19.435594,      19.227903,      36.632357,      36.366278,              0,             27,              1,   BookBook-Pro.fritz.box
