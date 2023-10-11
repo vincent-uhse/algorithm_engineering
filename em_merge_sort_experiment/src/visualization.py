@@ -3,7 +3,6 @@ import plotly.graph_objects as go
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
-import plotly.graph_objects as go
 from sklearn.neighbors import KernelDensity
 from matplotlib.colors import rgb2hex
 from scipy.stats import zscore
@@ -44,7 +43,9 @@ for column in df.columns:
 
 # Process Host_Name column to remove spaces
 df["Host_Name"] = (
-    df["Host_Name"].str.replace(" ", "").replace({"BookBook-Pro-2.local": "MacBook"})
+    df["Host_Name"]
+    .str.replace(" ", "")
+    .replace({"BookBook-Pro-2.local": "MacBook"})
 )
 
 file_seeds = df["file_seed"].unique()
@@ -65,7 +66,9 @@ for sort_option in internal_sort_options:
         df_use = df_host if host_name != "-1" else df_host_host
         for file_seed in file_seeds:
             df_file_filtered = (
-                df_use[df_use["file_seed"] == file_seed] if file_seed != -1 else df_use
+                df_use[df_use["file_seed"] == file_seed]
+                if file_seed != -1
+                else df_use
             )
 
             block_sizes = df_file_filtered["Block_Size"].unique()
@@ -73,15 +76,19 @@ for sort_option in internal_sort_options:
 
             if limit_std_dev:
                 # Filter out outliers that have large Z-scores for the relevant metrics' columns
-                z_scores_external = zscore(df_file_filtered["External_Wall_Clock_Time"])
+                z_scores_external = zscore(
+                    df_file_filtered["External_Wall_Clock_Time"]
+                )
                 z_scores_classical = zscore(
                     df_file_filtered["Classical_Wall_Clock_Time"]
                 )
 
                 # Set limit to 3 standard deviations
-                threshold = 3
-                outliers_mask_external = np.abs(z_scores_external) > threshold
-                outliers_mask_classical = np.abs(z_scores_classical) > threshold
+                THRESHOLD = 3
+                outliers_mask_external = np.abs(z_scores_external) > THRESHOLD
+                outliers_mask_classical = (
+                    np.abs(z_scores_classical) > THRESHOLD
+                )
 
                 # Filter out rows with outliers
                 df_file_filtered = df_file_filtered[
@@ -182,7 +189,8 @@ for sort_option in internal_sort_options:
                 fig.add_trace(scatter)
 
                 iqr_row = iqr_ext[
-                    (iqr_ext["Block_Size"] == block_size) & (iqr_ext["N"] == row["N"])
+                    (iqr_ext["Block_Size"] == block_size)
+                    & (iqr_ext["N"] == row["N"])
                 ]
                 iqr_value = iqr_row["IQR"].iloc[0]
                 scatter_error = go.Scatter(
@@ -190,7 +198,9 @@ for sort_option in internal_sort_options:
                     y=[median_wall_clock_time],
                     mode="markers",
                     marker=dict(size=10, color=color),
-                    error_y=dict(type="data", array=[iqr_value / 2], visible=True),
+                    error_y=dict(
+                        type="data", array=[iqr_value / 2], visible=True
+                    ),
                     customdata=[
                         f"Block Size {format_number(block_size)} (External) ({host_name})"
                     ],
@@ -209,7 +219,9 @@ for sort_option in internal_sort_options:
                     mode="markers",
                     name=f"Block Size {format_number(block_size)} (Classical) ({host_name})",
                     marker=dict(size=10, color=color, symbol="square"),
-                    customdata=[format_number(block_size) + "*" + "<br>Classical"],
+                    customdata=[
+                        format_number(block_size) + "*" + "<br>Classical"
+                    ],
                 )
                 fig.add_trace(scatter)
 
@@ -223,7 +235,9 @@ for sort_option in internal_sort_options:
                     y=[median_wall_clock_time],
                     mode="markers",
                     marker=dict(size=10, color=color, symbol="square"),
-                    error_y=dict(type="data", array=[iqr_value / 2], visible=True),
+                    error_y=dict(
+                        type="data", array=[iqr_value / 2], visible=True
+                    ),
                     customdata=[
                         f"Block Size {format_number(block_size)} (Classical) ({host_name})"
                     ],
@@ -237,15 +251,25 @@ for sort_option in internal_sort_options:
                     color = block_size_colors[block_size]
 
                     medians = (
-                        medians_ext if ext_or_class == "External" else medians_class
+                        medians_ext
+                        if ext_or_class == "External"
+                        else medians_class
                     )
-                    iqr_data = iqr_ext if ext_or_class == "External" else iqr_class
+                    iqr_data = (
+                        iqr_ext if ext_or_class == "External" else iqr_class
+                    )
 
-                    filtered_medians = medians[medians["Block_Size"] == block_size]
-                    filtered_iqr = iqr_data[iqr_data["Block_Size"] == block_size]
+                    filtered_medians = medians[
+                        medians["Block_Size"] == block_size
+                    ]
+                    filtered_iqr = iqr_data[
+                        iqr_data["Block_Size"] == block_size
+                    ]
 
                     x_vals = filtered_medians["N"]
-                    y_vals = filtered_medians[f"{ext_or_class}_Wall_Clock_Time"]
+                    y_vals = filtered_medians[
+                        f"{ext_or_class}_Wall_Clock_Time"
+                    ]
                     iqr_value = filtered_iqr["IQR"] / 2
 
                     fig.add_trace(
@@ -300,14 +324,18 @@ for sort_option in internal_sort_options:
 
         # Function to plot kernel density
         def truncated_kdeplot(data, label, color):
-            kde = sns.kdeplot(data, color=color, label=label, warn_singular=False)
+            kde = sns.kdeplot(
+                data, color=color, label=label, warn_singular=False
+            )
 
             x, y = kde.get_lines()[0].get_data()
 
             plt.scatter(
                 data, np.zeros_like(data), color=color, alpha=0.2
             )  # Scatter plot of data points
-            plt.xlim(0, max(x))  # Set x-axis limits from 0 to the maximum x value
+            plt.xlim(
+                0, max(x)
+            )  # Set x-axis limits from 0 to the maximum x value
             return kde
 
         labels = []
@@ -402,12 +430,18 @@ for sort_option in internal_sort_options:
                 "Classical_Wall_Clock_Time": "Classical",
             }
 
-            for mode in ["External_Wall_Clock_Time", "Classical_Wall_Clock_Time"]:
+            for mode in [
+                "External_Wall_Clock_Time",
+                "Classical_Wall_Clock_Time",
+            ]:
                 color = colors[mode]
                 label = f"Block Size {format_number(block_size)} ({labels[mode]}), Input Size {format_number(n)}"
 
                 traces_kde_data = plotly_similar_kde(
-                    data=data[mode], label=label, color=color, host_name=host_name
+                    data=data[mode],
+                    label=label,
+                    color=color,
+                    host_name=host_name,
                 )
                 if traces_kde_data is not None:
                     trace_kde, trace_data = traces_kde_data

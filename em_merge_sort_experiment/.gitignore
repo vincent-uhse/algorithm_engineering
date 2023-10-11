@@ -1,4 +1,4 @@
-!report/*.pdf
+# Only add top level report copied to the project root when the project is done
 !report.pdf
 
 env_python/
@@ -12,3 +12,8 @@ env_python/
 *.aux
 *.dvi
 *.log
+*.synctex
+*.synctex.gz
+*.bbl
+*.fls
+*.fdb_latexmk

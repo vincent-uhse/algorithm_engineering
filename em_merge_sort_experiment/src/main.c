@@ -862,7 +862,7 @@ void perform_analysis() {
 
   // Set for the long analysis: 0.4GB, 2GB, 4GB, 40GB (RAM 4GB on ThinkPad
   // Remote)
-
+  /*
   int num_different_files = 1;
   int num_runs_on_file = 1;
   long input_sizes[] = {10000000000, 1000000000, 500000000, 100000000};
@@ -870,9 +870,24 @@ void perform_analysis() {
   int block_sizes[] = {250000000};
   int max_classical = 500000000;
   int internal_sort_options[] = {1};
+  */
 
-  // Set for the scaling/distribution/blocksizes scaling/internal sort
-  // comparison/comparison function comparison analysis for testing
+  // Set for the scaling start analysis for the goodness-of-fit-test
+
+  int num_different_files = 1;
+  int num_runs_on_file = 1;
+  long input_sizes[] = {
+      10000000, 9750000, 9500000, 9250000, 9000000, 8750000, 8500000, 8250000,
+      8000000,  7750000, 7500000, 7250000, 7000000, 6750000, 6500000, 6250000,
+      6000000,  5750000, 5500000, 5250000, 5000000, 4750000, 4500000, 4250000,
+      4000000,  3750000, 3500000, 3250000, 3000000, 2750000, 2500000, 2250000,
+      2000000,  1750000, 1500000, 1250000, 1000000, 750000,  500000,  250000};
+  int block_sizes[] = {10000, 100000, 1000000, 10000000};
+  int max_classical = 500000000;
+  int internal_sort_options[] = {1};
+
+  // Set for the distribution/blocksizes internal sort comparison
+  // and comparison function comparison analysis for testing
   /*
   int num_different_files = 60;  // or 1 for distribution over one file
   int num_runs_on_file = 1;  // or 40 for distribution over one file
@@ -897,7 +912,8 @@ void perform_analysis() {
          "File_Seed", "Input_Size", "Block_Size", "Input_MB", "Block_MB",
          "Elapsed_Wall", "Elapsed_CPU", "Classical_Wall", "Classical_CPU",
          "Merge_Rounds", "Classical_Rounds", "Sort_Option", "Host_Name");
-  // Append to result file
+  // Append to result file (disabled for LogStash configuration format)
+  /*
   FILE *file;
   file = fopen("../res/results.txt", "a");
   if (file == NULL) {
@@ -911,6 +927,7 @@ void perform_analysis() {
       "Elapsed_Wall", "Elapsed_CPU", "Classical_Wall", "Classical_CPU",
       "Merge_Rounds", "Classical_Rounds", "Sort_Option", "Host_Name");
   fclose(file);
+  */
 
   for (int c = 0;
        c < sizeof(internal_sort_options) / sizeof(internal_sort_options[0]);

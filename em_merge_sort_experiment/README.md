@@ -70,7 +70,7 @@ Log into the nodes with (here Node 2 as an example) with `docker exec -it opense
   ```
 * Access OpenSearch Dashboards at [http://0.0.0.0:5601/app/home](http://0.0.0.0:5601/app/home).
 * Create or refresh the index pattern, of the index that LogStash uses to publish to OpenSearch, e.g., of the index `results_index`.
-* Use the predefined dashboard visualization frame `opensearch/scaling_start.iframe` or create your own visualizations.
+* Create your own visualizations and dashboards according to your needs.
 
 ### Notification
 Since the experiments take a long time, there is a way to get notified when the processing is done.
