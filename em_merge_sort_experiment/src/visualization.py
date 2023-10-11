@@ -1,4 +1,6 @@
-"""Used to read from file into a Pandas Dataframe"""
+"""
+Module for Python Plotly visualization of algorithm run times
+"""
 import pandas as pd
 import plotly.graph_objects as go
 import seaborn as sns
@@ -62,7 +64,7 @@ df.columns = [
 
 # Process columns (except Host_Name and Sort_Option)
 for column in df.columns:
-    if column != "Host_Name" and column != "Sort_Option":
+    if column not in ("Host_Name", "Sort_Option"):
         df[column] = df[column].apply(
             lambda x: float(x.strip(" MB,").replace(",", ""))
             if isinstance(x, str)

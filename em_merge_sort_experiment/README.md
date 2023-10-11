@@ -8,9 +8,9 @@ the External Memory Merge Sort algorithm.
 We now assume that you are in the top level directory of this project.
 For the `C` compiler version, we use `gcc-13 (Homebrew GCC 13.2.0) 13.2.0` on Computer1, and `gcc (GCC) 13.2.1 20230801` on Computer2. 
 We use `Python 3.11.5` for data visualization. Create your Python virtual environment for this project with 
-```
-python -m venv env_python && source env_python/bin/activate && pip install -r requirements.txt && deactivate
-```
+`python -m venv env_python && source env_python/bin/activate` and `pip install -r requirements.txt`.
+To get out of the Python environment, `deactivate` it. 
+
 
 ### Helpful but not required
 We make use of `Chromium` to look at `html`, `svg` and `png` files for the data visualization.

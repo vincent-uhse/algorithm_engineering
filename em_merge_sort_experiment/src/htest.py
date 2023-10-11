@@ -1,4 +1,6 @@
-"""Used to read from file into a Pandas Dataframe"""
+"""Module to perform hypothesis test regarding the block size 
+parameter of the External Memory Merge Sort (and Classical Merge Sort)
+algorithm"""
 import pandas as pd
 from scipy.stats import ttest_ind
 import numpy as np
@@ -42,6 +44,11 @@ hypothesis_test_results = []
 
 
 def perform_hypothesis_tests():
+    """
+    Function to perform hypothesis tests to distinguish the effects
+    of small changes in the block size parameter for the External Memory
+    Merge Sort algorithm
+    """
     for metric in ["Classical_Wall_Clock_Time", "External_Wall_Clock_Time"]:
         print("Global analysis on metric: " + metric)
         for _, i in enumerate(block_sizes):

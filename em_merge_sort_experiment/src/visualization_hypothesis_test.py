@@ -1,4 +1,6 @@
-"""Used for plotting statistical analyses on hypothesis tests"""
+"""
+Module for plotting statistical analyses on hypothesis tests of run times of algorithms
+"""
 import matplotlib.pyplot as plt
 import seaborn as sns
 import htest
@@ -130,10 +132,10 @@ for metric in metrics:
     # Extract p-values and Cohen's d values for this metric
     p_values = [test["p-value"] for test in block_size_comparison_results]
     cohen_d_values = [test["cohen_d"] for test in block_size_comparison_results]
-    # 7. Plot KDE for p-values of All Tests for a metric
+    # Plot KDE for p-values of All Tests for a metric
     p_values = [test["p-value"] for test in block_size_comparison_results]
     plot_kde(p_values, f"KDE for p-values of {metric}", "p-value", vlines=[0.05])
-    # 8. Plot KDE for Cohen's d values of All Tests for a metric
+    # Plot KDE for Cohen's d values of All Tests for a metric
     cohen_d_values = [test["cohen_d"] for test in block_size_comparison_results]
     plot_kde(
         cohen_d_values,
