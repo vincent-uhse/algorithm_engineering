@@ -39,9 +39,7 @@ def calculate_performances(a, b, storage_block_size):
         performance = storage_blocks_read / reads
         performances.append(performance)
 
-        gcd_value = (
-            math.gcd(block_size, storage_block_size) / storage_block_size
-        )
+        gcd_value = math.gcd(block_size, storage_block_size) / storage_block_size
         gcd_values.append(gcd_value)
 
     return block_sizes, performances, gcd_values
@@ -51,13 +49,9 @@ SIZE_STORAGE_BLOCK = 4096
 A = 1
 B = 5 * SIZE_STORAGE_BLOCK
 
-sizes_blocks, efficiencies, gcds = calculate_performances(
-    A, B, SIZE_STORAGE_BLOCK
-)
+sizes_blocks, efficiencies, gcds = calculate_performances(A, B, SIZE_STORAGE_BLOCK)
 
-with open(
-    "../res/distinct_read_efficiencies.txt", "w", encoding="utf8"
-) as file:
+with open("../res/distinct_read_efficiencies.txt", "w", encoding="utf8") as file:
     for blocksize, efficiency in zip(sizes_blocks, efficiencies):
         file.write(f"{blocksize}, {efficiency}\n")
 

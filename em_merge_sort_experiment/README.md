@@ -42,7 +42,7 @@ cd src && gcc -O3 -march=native -funroll-loops -flto -m64 -std=c11 -Wall -Wpedan
 ### Hypothesis Testing
 Test the hypotheses about the algorithms run times, their distributions and how they are influenced by parameters like `input_size` and `block_size` by running
 ```
-cd src && python hypothesis_test.py > ../res/hypothesis_test_results.txt && cd ..
+cd src && python visualization_hypothesis_test.py > ../res/hypothesis_test_results.txt && cd ..
 ```
 
 ### Visualization
