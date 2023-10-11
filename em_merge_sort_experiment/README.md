@@ -12,8 +12,9 @@ We use `Python 3.11.5` for data visualization. Create your Python virtual enviro
 python -m venv env_python && source env_python/bin/activate && pip install -r requirements.txt && deactivate
 ```
 
-Additionally, we make use of `Chromium 119.0.6000.0` to look at `html`, `svg` and `png` files for the data visualization, but it is not required to be installed. 
-We provide several different scripts for different purposes. These can be coupled as required. 
+### Helpful but not required
+We make use of `Chromium` to look at `html`, `svg` and `png` files for the data visualization.
+Alternatively, we use an OpenSearch stack for a more comfortable visualization.
 
 ## How To Run the Code
 
