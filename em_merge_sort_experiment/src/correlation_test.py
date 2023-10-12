@@ -36,26 +36,29 @@ for column in df.columns:
             else x
         )
 
-block_sizes = df["Block_Size"].unique()
+block_sizes = df["Block_Size_MB"].unique()
 input_sizes = sorted(df["Input_Size"].unique())
-for block_size in block_sizes[:-1]:
-    df_host = df[df["Block_Size"] == block_size]
-    print(len(df_host))
-    observed_times = list(df_host["External_Wall_Clock_Time"])[::-1]
-    n_log_n = [(n / 100000) ** 2 * math.log(n / 100000) for n in input_sizes]
-    print(observed_times)
-    print(input_sizes)
-    print(n_log_n)
-    correlation, p_value = pearsonr(observed_times, n_log_n)
+with open("../res/results_correlation_powers.txt", "w") as file:
+    for block_size in block_sizes[:-1]:
+        df_host = df[df["Block_Size_MB"] == block_size]
+        print(len(df_host))
+        observed_times = list(df_host["External_Wall_Clock_Time"])[::-1]
+        for power in range(0, 20):
+            n_log_n = [
+                (n / 100000) ** power * math.log(n / 100000) for n in input_sizes
+            ]
 
-    if p_value < ALPHA:
-        print(
-            f"Block Size {block_size}: Reject null hypothesis (p={p_value}, r={correlation}). \
-                It is unlikely that there is no significant correlation between \
-                the run times and n log n."
-        )
-    else:
-        print(
-            f"Block Size {block_size}: Fail to reject null hypothesis (p={p_value}, r={correlation}). \
-                No significant correlation."
-        )
+            correlation, p_value = pearsonr(observed_times, n_log_n)
+            file.write(f"{block_size}, {power}, {correlation}, {p_value}\n")
+
+            if p_value < ALPHA:
+                print(
+                    f"Block Size {block_size}: Reject null hypothesis (p={p_value}, r={correlation}). \
+                        It is unlikely that there is no significant correlation between \
+                        the run times and n log n."
+                )
+            else:
+                print(
+                    f"Block Size {block_size}: Fail to reject null hypothesis (p={p_value}, r={correlation}). \
+                        No significant correlation."
+                )

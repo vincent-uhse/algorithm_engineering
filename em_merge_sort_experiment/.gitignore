@@ -1,8 +1,6 @@
-# Only add top level report copied to the project root when the project is done
-!report.pdf
-
 env_python/
 .env
+
 *.out
 *.bin
 *.pdf
@@ -17,3 +15,9 @@ env_python/
 *.bbl
 *.fls
 *.fdb_latexmk
+*.sync
+
+# Include report related builds for collaboration
+# We only include the top level report at the end - everything else is local
+!report.pdf
+!report/res/*
