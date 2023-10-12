@@ -37,23 +37,25 @@ for column in df.columns:
         )
 
 block_sizes = df["Block_Size"].unique()
-input_sizes = df["Input_Size"].unique()
-for block_size in block_sizes:
+input_sizes = sorted(df["Input_Size"].unique())
+for block_size in block_sizes[:-1]:
     df_host = df[df["Block_Size"] == block_size]
     print(len(df_host))
-    observed_times = df_host["External_Wall_Clock_Time"]
-    n_log_n = [n * math.log(n) for n in reversed(input_sizes)]
-
+    observed_times = list(df_host["External_Wall_Clock_Time"])[::-1]
+    n_log_n = [(n / 100000) ** 2 * math.log(n / 100000) for n in input_sizes]
+    print(observed_times)
+    print(input_sizes)
+    print(n_log_n)
     correlation, p_value = pearsonr(observed_times, n_log_n)
 
     if p_value < ALPHA:
         print(
-            f"Block Size {block_size}: Reject null hypothesis (p={p_value}). \
+            f"Block Size {block_size}: Reject null hypothesis (p={p_value}, r={correlation}). \
                 It is unlikely that there is no significant correlation between \
                 the run times and n log n."
         )
     else:
         print(
-            f"Block Size {block_size}: Fail to reject null hypothesis (p={p_value}). \
+            f"Block Size {block_size}: Fail to reject null hypothesis (p={p_value}, r={correlation}). \
                 No significant correlation."
         )
