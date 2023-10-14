@@ -1,15 +1,14 @@
 """
 Module for Python Plotly visualization of algorithm run times
 """
+import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 import seaborn as sns
-import matplotlib.pyplot as plt
-import numpy as np
-from sklearn.neighbors import KernelDensity
 from matplotlib.colors import rgb2hex
 from scipy.stats import zscore
-
+from sklearn.neighbors import KernelDensity
 
 SHOW_SCATTER_ERROR = True
 LIMIT_STD_DEV = True

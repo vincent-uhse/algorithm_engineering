@@ -3,8 +3,8 @@ Module for plotting statistical analyses on hypothesis tests of run times of alg
 """
 import matplotlib.pyplot as plt
 import seaborn as sns
-import htest
 
+import htest
 
 hypothesis_test_results = htest.perform_hypothesis_tests()
 

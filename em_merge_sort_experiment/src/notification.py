@@ -1,5 +1,6 @@
 """Used to load environment variables"""
 import os
+
 import requests
 from dotenv import load_dotenv
 

@@ -29,7 +29,7 @@
     allowing for efficient management of massive datasets.
 
     Our findings reveal that External Memory Merge Sort exhibits superior performance to Classical Merge Sort for compatible data
-    sizes, with larger block sizes enhancing its efficiency. We also establish that the number of merge rounds scales with an expected \( \cO\l(\log(n)\r) \) complexity in relation to the input
+    sizes, with larger block sizes enhancing its efficiency. We also establish that the number of merge rounds scales with an expected \( \cO\l(\log n\r) \) complexity in relation to the input
     size \( n \), while both algorithms follow a \( \cO\l(n\log(n)\r) \) time complexity trend.
     Aligning the block size with the underlying system's storage block size is relevant for optimal
     performance.
@@ -65,7 +65,7 @@ These blocks are then merged to form an output block. The process continues, wit
 at the conclusion of the merging process. This method allows us to effectively utilize approximately three times the block size within the internal memory.
 We make use of only two files in external memory to keep track of unprocessed and already processed data for the current merge round.
 In between two consecutive merge rounds, one file is cleared, and the other file contains blocks of sorted data, in accordance to the current block size.
-In the subsequent merge round, the filled file is read from and the empty file is written into.
+In the next merge round, the filled file is read from and the empty file is written into.
 
 We observe that External Memory Merge Sort demonstrates superior performance compared to Classical Merge Sort for compatible file sizes.
 This advantage stems from the use of Quick Sort within External Memory Merge Sort for in-place sorting. Alternatively, when applying Classical Merge Sort for in-place sorting,
@@ -263,19 +263,20 @@ Since Computer 2 has the least internal memory, the capacity of 4GB limits the R
 \subsection{Results}
 \label{sub:Results}
 
-\paragraph*{Analysing the run times on four large instances}
+\paragraph*{Analyzing the run times on four large instances}
 We give the data for External Memory Merge Sort on the 0.1, 0.5, 1, 10 \( \times \) RAM size instances and for Classical Merge Sort, as this algorithm uses exclusively the internal memory, on the 0.1 and 0.5 \( \times \) RAM size instances (Table \ref{tbl:large_instances_table}).
 Our configuration is based on a 4GB RAM capacity, employing a maximum block size of 1GB. This ensures that we can efficiently load up to three blocks into the internal memory, accommodating even the computer with the most limited available internal memory.
+We opted not to use a block size equivalent to one-third of the available RAM size. Although technically feasible, we noticed a decrease in performance compared to the 1GB solution. This was attributed to an increase in swapping activity, which adversely affected execution speed.
 \begin{figure}[htb]
     \begin{minipage}{0.475\textwidth}
         \begin{tabularx}{\textwidth}{|X|S[table-format=2.2]|S[table-format=3.2]|S[table-format=3.2]|S[table-format=4.2]|}
             \hline
                    & \multicolumn{4}{c|}{Input Size / RAM Size}                             \\ \hline
                    & 0.1                                        & 0.5    & 1      & 10      \\ \hline
-            C1 (E) & 19.44                                      & 106.08 & 253.94 & 3870.50 \\ \hline % TODO
-            C1 (C) & 36.63                                      & 193.94 &        &         \\ \hline % TODO
+            C1 (E) & 19.44                                      & 106.08 & 253.94 & 3870.50 \\ \hline
+            C1 (C) & 36.63                                      & 193.94 &        &         \\ \hline
             C2 (E) & 22.07                                      & 111.52 & 368.62 & 7828.52 \\ \hline
-            C2 (C) & 20.35                                      & 191.25 &        &         \\ \hline % TODO
+            C2 (C) & 20.35                                      & 191.25 &        &         \\ \hline
             C3 (E) &                                            &        &        &         \\ \hline % TODO
             C3 (C) &                                            &        &        &         \\ \hline % TODO
         \end{tabularx}
@@ -285,17 +286,102 @@ Our configuration is based on a 4GB RAM capacity, employing a maximum block size
     \end{minipage}
 \end{figure}
 
-\paragraph*{Analysing the scaling of the algorithms' time complexity}
-% We perform a goodness-of-fit test
-% We want to show that the algorithms' run times follow the O(n log n) trend and that the number of merge rounds scales with O(log n)
-% TODO
+\paragraph*{Analyzing the scaling of the algorithms' time complexity}
+We bolster the theoretical assumption that run times should exhibit a \( \mathcal{O} (n \log n) \) scaling pattern using real-world experimental data.
+We calculate correlation coefficients for functions representing different run time complexities. This enables us to discern the most robust linear relationship.
+For the External Memory Merge Sort algorithm run times we find nearly perfect correlation, suggesting a precise linear relationship (Figure \ref{fig:Correlation_External_Wall_Clock_Time.pdf}).
+For the Classical Merge Sort algorithm run times we have the same finding with a \( \Theta(n \log n) \) run time complexity (Figure \ref{fig:Correlation_Classical_Wall_Clock_Time.pdf}).
+The number of merge rounds scale with \( \Theta (\log n) \) which is expected (Figures \ref{fig:Correlation_Merge_Rounds.pdf} and \ref{fig:Correlation_Classical_Rounds.pdf}).
+The best fitting function for the merge rounds in the External algorithm deviates from our initial expectations. This discrepancy is due to the fact that, with the utilization of larger block sizes, the number of merge rounds is low, and here in the range of \( 0, 1, 2 \) (Figure \ref{fig:Correlation_Merge_Rounds.pdf}).
+
+\begin{figure}[htb]
+    \begin{minipage}{0.475 \textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./res/fit/Correlation_External_Wall_Clock_Time.pdf}
+        \caption{Correlation coefficients over powers \( p \) of measured External algorithm run times with functions \( n \mapsto n^p \log n\). The curves are split by the block size parameter used in the External Memory Merge Sort algorithm.}
+        \label{fig:Correlation_External_Wall_Clock_Time.pdf}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[htb]
+    \begin{minipage}{0.475 \textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./res/fit/Correlation_External_Wall_Clock_Time.pdf}
+        \caption{Correlation coefficients over powers \( p \) of measured Classical algorithm run times with functions \( n \mapsto n^p \log n\).}
+        \label{fig:Correlation_Classical_Wall_Clock_Time.pdf}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[htb]
+    \begin{minipage}{0.475 \textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./res/fit/Correlation_Merge_Rounds.pdf}
+        \caption{Correlation coefficients over powers \( p \) of measured External algorithm merge rounds with functions \( n \mapsto n^p \log n\). The curves are split by the block size parameter used in the External Memory Merge Sort algorithm.}
+        \label{fig:Correlation_Merge_Rounds.pdf}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[htb]
+    \begin{minipage}{0.475 \textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./res/fit/Correlation_Classical_Rounds.pdf}
+        \caption{Correlation coefficients over powers \( p \) of measured Classical algorithm merge rounds with functions \( n \mapsto n^p \log n\).}
+        \label{fig:Correlation_Classical_Rounds.pdf}
+    \end{minipage}
+\end{figure}
+
+Following this, we generate visualizations of the correlation coefficients, facilitating the identification of the best-fitting function.
+In addition, we conduct regression analyses to develop regression models for each of the functions.
+This yields visual representations of both the \( R^2 \) values and the residuals of the fits. The data from the \( R^2 \) values match the patterns from the correlation analysis and provide no further insight into the most suitable fitting function, so they are not shown here.
+To enhance our grasp of the relationship between regression residuals and the best fitting function, it is important to observe that the residuals most tightly clustered around zero are associated with the best fitting function (along with other desirable criteria like homosedasticity and normality)
+(Figures \ref{fig:kde_residuals_Correlation_External_Wall_Clock_Time.pdf},
+\ref{fig:kde_residuals_Correlation_Classical_Wall_Clock_Time.pdf},
+\ref{fig:kde_residuals_Correlation_Merge_Rounds.pdf} and
+\ref{fig:kde_residuals_Correlation_Classical_Rounds.pdf}
+).
+
+\begin{figure}[htb]
+    \begin{minipage}{0.475 \textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./res/fit/kde_residuals_Correlation_External_Wall_Clock_Time.pdf}
+        \caption{Kernel density estimation of residuals for regression analyses with different model functions fit into run times of the External algorithm.}
+        \label{fig:kde_residuals_Correlation_External_Wall_Clock_Time.pdf}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[htb]
+    \begin{minipage}{0.475 \textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./res/fit/kde_residuals_Correlation_External_Wall_Clock_Time.pdf}
+        \caption{Kernel density estimation of residuals for regression analyses with different model functions fit into run times of the Classical algorithm.}
+        \label{fig:kde_residuals_Correlation_Classical_Wall_Clock_Time.pdf}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[htb]
+    \begin{minipage}{0.475 \textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./res/fit/kde_residuals_Correlation_Merge_Rounds.pdf}
+        \caption{Kernel density estimation of residuals for regression analyses with different model functions fit into merge rounds of the External algorithm.}
+        \label{fig:kde_residuals_Correlation_Merge_Rounds.pdf}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[htb]
+    \begin{minipage}{0.475 \textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./res/fit/kde_residuals_Correlation_Classical_Rounds.pdf}
+        \caption{Kernel density estimation of residuals for regression analyses with different model functions fit into merge rounds of the Classical algorithm. We observe an exception due to very small numbers of merge rounds for the largest block size.}
+        \label{fig:kde_residuals_Correlation_Classical_Rounds.pdf}
+    \end{minipage}
+\end{figure}
 
 \paragraph*{Observing shifting distributions of run times as the input size scales}
 % We perform goodness-of-fit testss
 For the distribution of run times, we observe a shift away from normality as the data to sort gets large.
 % TODO
 
-\paragraph*{Analysing I/O overhead as the input size scales}
+\paragraph*{Analyzing I/O overhead as the input size scales}
 % We want to show that the relation from wall clock run times to CPU run time is dominated by I/O overhead (mostly wall clock time - CPU time) as the input size gets large
 % TODO
 
@@ -327,6 +413,7 @@ We observe significant differences of run times between different computing envi
 % TODO
 
 \paragraph*{Optimizing Performance with Block Size Multiples Relative to Underlying Storage Block Size}
+\label{par:storage_block_size}
 Factors such as storage block size, data distribution, and access patterns can significantly impact the optimal block size for a given scenario.
 It is essential to consider the interplay between these variables to make informed decisions about block size selection and achieve optimal performance.
 While larger block sizes generally enhance overall system performance, it is important to note that this principle does not directly apply on a small scale.
@@ -409,7 +496,7 @@ The distribution shift that results from the different block sizes is visualized
 \begin{figure*}
     \centering
     \includegraphics[width=0.8 \textwidth]{./res/visualization_multiples_block_size.png}
-    \caption{Boxplots with medians and quartiles for the distributions of \( 40 \) runs on \( 100 \) files with the block sizes \( 16\,383, 16\,384 \) and \( 16\,385\) (\(4\,096\) is
+    \caption{Boxplots with medians and inter-quartile ranges for the distributions of \( 40 \) runs on \( 100 \) files with the block sizes \( 16\,383, 16\,384 \) and \( 16\,385\) (\(4\,096\) is
         the underlying storage block size).}
     \label{fig:visualization_multiples_block_size.png}
 \end{figure*}
@@ -417,7 +504,7 @@ The distribution shift that results from the different block sizes is visualized
     \centering
     \includegraphics[width=0.8 \textwidth]{./res/kde_plot_multiples_block_size.png}
     \caption{Kernel density estimation plot for the distributions from \( 40 \) runs on \( 100 \) files with the block sizes \( 16\,383, 16\,384 \) and \( 16\,385 \) (\(4\,096\) is the underlying storage block size and
-        \( 16\,384 = 4\,096 \times 4 \)).}
+        \( 16\,384 = 4\,096 \times 4 \)). External Sorting (blue) uses Quick Sort for in-place sorting and is faster than Classical Sorting (red). A block size parameter set to a multiple of the underlying operating system's storage block size enhances performance significantly with a small effect size when compared to its decrement or increment (Paragraph \ref{par:storage_block_size}).}
     \label{fig:kde_plot_multiples_block_size.png}
 \end{figure*}
 
@@ -426,7 +513,7 @@ We can deviate from the data normality assumption since we have large samples si
 With \( 40 \) runs on \( 100 \) random files, these are (\(40 > 30 \)) for each file, and (\(4\,000 > 30 \)) for the global analyses.
 According to the Central Limit Theorem, even if the underlying data is not normally distributed, the distribution of sample means will tend to be approximately normal, hence the
 distribution of differences of sample means will follow a \( t \) distribution.
-Additionally, we can assume that any two run times are independent of each other, signifying the absence of any "lasting effects" from one run on subsequent ones.
+Additionally, we can assume that any two run times are independent of each other, signifying the absence of any "lasting effects" from one run on ensuing ones.
 Furthermore, we assume that the variances of the data are approximately equal. From the hypothesis tests, we get that choosing the block size as a multiple of the underlying sytem's storage blocksize
 has a small (Cohen's \( d \approx 0.02 \)) beneficial effect compared to choosing the block size as one decrement or increment from the multiple.
 

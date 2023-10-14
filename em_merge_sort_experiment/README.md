@@ -10,7 +10,7 @@ For the `C` compiler version, we use `gcc-13 (Homebrew GCC 13.2.0) 13.2.0` on Co
 We use `Python 3.11.5` for data visualization. Create your Python virtual environment for this project with 
 `python -m venv env_python && source env_python/bin/activate` and `pip install -r requirements.txt`.
 To get out of the Python environment, `deactivate` it. 
-
+Upgrade all packages with `pip freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip install -U && pip list`.
 
 ### Helpful but not required
 We make use of `Chromium` to look at `html`, `svg` and `png` files for the data visualization.

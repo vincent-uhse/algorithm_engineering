@@ -1,9 +1,9 @@
 """Module to perform hypothesis test regarding the block size 
 parameter of the External Memory Merge Sort (and Classical Merge Sort)
 algorithm"""
+import numpy as np
 import pandas as pd
 from scipy.stats import ttest_ind
-import numpy as np
 
 RESULTS_PATH = "../res/results_block_size_analysis.txt"
 

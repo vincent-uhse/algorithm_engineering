@@ -1,5 +1,6 @@
 """The math module is used to calculate the greatest common divisor."""
 import math
+
 import matplotlib.pyplot as plt
 
 

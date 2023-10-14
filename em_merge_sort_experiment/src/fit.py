@@ -4,10 +4,10 @@ between measured and expected run times, to test for Theta/O(f(n))
 scaling behaviour.
 """
 import math
-import pandas as pd
-from scipy.stats import pearsonr
-import statsmodels.api as sm
 
+import pandas as pd
+import statsmodels.api as sm
+from scipy.stats import pearsonr
 
 RESULTS_PATH = "../res/results_scaling_start.txt"
 ALPHA = 0.05

@@ -6,14 +6,11 @@ We expect to see a peak of the correlation coefficient when the run times lie in
 Theta(assumed function), i.e, scale the same as that function, apart from a scalar
 coefficient. 
 """
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-from scipy.interpolate import interp1d
 import seaborn as sns
-
-# from scipy.stats import probplot
-
+from scipy.interpolate import interp1d
 
 for metric in [
     "External_Wall_Clock_Time",
@@ -46,12 +43,12 @@ for metric in [
         df = df.sort_values(by="Function")
         block_sizes = df["Block Size"].unique()
 
-        # Define a list of markers and colors for each block size
         marker_color_mapping = {
             0.04: ("X", "blue"),
             0.4: ("o", "red"),
             4: ("s", "green"),
             40: ("D", "purple"),
+            1000: ("x", "orange"),
         }
 
         fig, ax = plt.subplots(figsize=(10, 10))
@@ -94,44 +91,37 @@ for metric in [
             f"{relationship} vs Power $p$ comparing run times with $n^p log(n)$"
         )
         ax.legend()
-
         plt.tight_layout()
-
-        # plt.show()
         plt.savefig(
             f"../report/res/fit/{relationship}_{metric}.pdf",
             format="pdf",
         )
         plt.close()
 
-        fig, axes = plt.subplots(
-            len(block_sizes), 1, figsize=(10, 5 * len(block_sizes))
+    fig, axes = plt.subplots(len(block_sizes), 1, figsize=(10, 5 * len(block_sizes)))
+
+    for i, block_size in enumerate(block_sizes):
+        df_block = df[df["Block Size"] == block_size]
+
+        max_corr_row = df_block[df_block[relationship] == df_block[relationship].max()]
+
+        ax = axes[i]
+
+        for j, row in df_block.iterrows():
+            residuals = [float(r) for r in row["Residuals"].split(";")]
+            sns.kdeplot(residuals, ax=ax, label=rf'$n^{row["Function"]} \log n$')
+
+        ax.set_xlabel("Residuals")
+        ax.set_ylabel("Density")
+        ax.set_title(
+            rf"KDE of Residuals for Fit with $n^p\log n$ for Block Size {block_size} MB"
         )
+        ax.legend()
 
-        for i, block_size in enumerate(block_sizes):
-            df_block = df[df["Block Size"] == block_size]
+    plt.tight_layout()
 
-            max_corr_row = df_block[
-                df_block[relationship] == df_block[relationship].max()
-            ]
-
-            ax = axes[i]
-
-            for j, row in df_block.iterrows():
-                residuals = [float(r) for r in row["Residuals"].split(";")]
-                ax.hist(
-                    residuals, bins=20, alpha=0.5, label=f'Function {row["Function"]}'
-                )
-
-            ax.set_xlabel("Residuals")
-            ax.set_ylabel("Frequency")
-            ax.set_title(f"Histogram of Residuals for Block Size {block_size} MB")
-            ax.legend()
-
-        plt.tight_layout()
-
-        plt.savefig(
-            f"../report/res/fit/histogram_residuals_{relationship}_{metric}.pdf",
-            format="pdf",
-        )
-        plt.close()
+    plt.savefig(
+        f"../report/res/fit/kde_residuals_{relationship}_{metric}.pdf",
+        format="pdf",
+    )
+    plt.close()
