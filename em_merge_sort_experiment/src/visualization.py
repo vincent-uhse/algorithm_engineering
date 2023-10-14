@@ -22,8 +22,7 @@ def format_number(size):
     size = str((int)(size))
     if len(size) <= 3:
         return size
-    else:
-        return format_number(size[:-3]) + "." + size[-3:]
+    return format_number(size[:-3]) + "." + size[-3:]
 
 
 def truncated_kdeplot(input_data, data_label, plot_color):
