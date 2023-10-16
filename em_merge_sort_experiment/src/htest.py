@@ -1,6 +1,8 @@
-"""Module to perform hypothesis test regarding the block size 
+"""
+Module to perform hypothesis test regarding the block size 
 parameter of the External Memory Merge Sort (and Classical Merge Sort)
-algorithm"""
+algorithm
+"""
 import numpy as np
 import pandas as pd
 from scipy.stats import ttest_ind
@@ -9,10 +11,10 @@ RESULTS_PATH = "../res/results_block_size_analysis.txt"
 
 df = pd.read_csv(RESULTS_PATH, delimiter=",", header=None, engine="python", skiprows=1)
 df.columns = [
-    "file_seed",
-    "N",
+    "File_Seed",
+    "Input_size",
     "Block_Size",
-    "N_MB",
+    "Input_MB",
     "Block_Size_MB",
     "External_Wall_Clock_Time",
     "External_CPU_Time",
@@ -32,13 +34,12 @@ for column in df.columns:
             else x
         )
 
-# Process Host_Name column to remove spaces
 df["Host_Name"] = (
     df["Host_Name"].str.replace(" ", "").replace({"BookBook-Pro-2.local": "MacBook"})
 )
 
 block_sizes = df["Block_Size"].unique()
-file_seeds = df["file_seed"].unique()
+file_seeds = df["File_Seed"].unique()
 
 hypothesis_test_results = []
 
@@ -106,11 +107,11 @@ def perform_hypothesis_tests():
 
                     data1 = df[
                         (df["Block_Size"] == block_size_1)
-                        & (df["file_seed"] == file_seed)
+                        & (df["File_Seed"] == file_seed)
                     ][metric]
                     data2 = df[
                         (df["Block_Size"] == block_size_2)
-                        & (df["file_seed"] == file_seed)
+                        & (df["File_Seed"] == file_seed)
                     ][metric]
 
                     t_statistic, p_value = ttest_ind(data1, data2)

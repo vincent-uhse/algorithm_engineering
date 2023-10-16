@@ -852,12 +852,12 @@ void perform_analysis() {
 
   // Set for the block_size multiple of system storage block size analysis
   /*
-  int num_different_files = 100;
-  int num_runs_on_file = 40;
-  long input_sizes[] = {1000000};
-  int block_sizes[] = {4096 * 4 - 1, 4096 * 4, 4096 * 4 + 1};
-  int max_classical = 10000000;
-  int internal_sort_options[] = {1};
+    int num_different_files = 100;
+    int num_runs_on_file = 40;
+    long input_sizes[] = {100000, 10000};  // 1000000
+    int block_sizes[] = {4096 * 4 - 1, 4096 * 4, 4096 * 4 + 1};
+    int max_classical = 10000000;
+    int internal_sort_options[] = {1};
   */
 
   // Set for the long analysis: 0.4GB, 2GB, 4GB, 40GB (RAM 4GB on ThinkPad
@@ -873,7 +873,7 @@ void perform_analysis() {
   */
 
   // Set for the scaling start analysis for the goodness-of-fit-test
-
+  /*
   int num_different_files = 1;
   int num_runs_on_file = 1;
   long input_sizes[] = {1000000000, 975000000, 950000000, 925000000, 900000000,
@@ -887,21 +887,22 @@ void perform_analysis() {
   int block_sizes[] = {250000000}; // {10000, 100000, 1000000, 10000000};
   int max_classical = 500000000;
   int internal_sort_options[] = {1};
+  */
 
   // Set for the distribution/blocksizes internal sort comparison
   // and comparison function comparison analysis for testing
   /*
-  int num_different_files = 60;  // or 1 for distribution over one file
-  int num_runs_on_file = 1;  // or 40 for distribution over one file
-  long input_sizes[] = {10000, 100000, 1000000, 10000000};
+  int num_different_files = 1; // or 1 for distribution over one file
+  int num_runs_on_file = 60;   // or 40 for distribution over one file
+  long input_sizes[] = {10000000, 1000000, 100000, 10000};
   int block_sizes[] = {10000, 100000, 1000000, 10000000};
   int max_classical = 10000000;
   // Toggle for the internal sorting phase of the External Memory Merge Sort
-  algorithm
+  // algorithm
   // 0 means use Classical Merge Sort
   // 1 means use qsort with naive integer comparison
   // 2 means use qsort with binary integer comparison
-  int internal_sort_options[] = {0};  // 0, 1, 2
+  int internal_sort_options[] = {0, 1, 2};
   */
 
   // We can and need to fit three blocks in our memory. We will use this to

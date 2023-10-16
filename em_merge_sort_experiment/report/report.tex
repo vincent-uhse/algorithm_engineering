@@ -333,7 +333,7 @@ The best fitting function for the merge rounds in the External algorithm deviate
 Following this, we generate visualizations of the correlation coefficients, facilitating the identification of the best-fitting function.
 In addition, we conduct regression analyses to develop regression models for each of the functions.
 This yields visual representations of both the \( R^2 \) values and the residuals of the fits. The data from the \( R^2 \) values match the patterns from the correlation analysis and provide no further insight into the most suitable fitting function, so they are not shown here.
-To enhance our grasp of the relationship between regression residuals and the best fitting function, it is important to observe that the residuals most tightly clustered around zero are associated with the best fitting function (along with other desirable criteria like homosedasticity and normality)
+To enhance our grasp of the relationship between regression residuals and the best fitting function, it is important to observe that the residuals most tightly clustered around zero are associated with the best fitting function (along with other desirable criteria like homoscedasticity and normality)
 (Figures \ref{fig:kde_residuals_Correlation_External_Wall_Clock_Time.pdf},
 \ref{fig:kde_residuals_Correlation_Classical_Wall_Clock_Time.pdf},
 \ref{fig:kde_residuals_Correlation_Merge_Rounds.pdf} and
@@ -376,18 +376,45 @@ To enhance our grasp of the relationship between regression residuals and the be
     \end{minipage}
 \end{figure}
 
-\paragraph*{Observing shifting distributions of run times as the input size scales}
-% We perform goodness-of-fit testss
-For the distribution of run times, we observe a shift away from normality as the data to sort gets large.
-% TODO
+\paragraph*{Analyzing Distributions of Run Times as the Input Size Grows}
+We observe a shift towards normality of run times from repeated runs on fixed input files as the data sets get large and in relation to a fixed block size (Figure \ref{fig:plot_normality.pdf}).
+For the distribution of run times over various input files for a fixed input size, we reject similarity with a normal distribution type.
 
-\paragraph*{Analyzing I/O overhead as the input size scales}
-% We want to show that the relation from wall clock run times to CPU run time is dominated by I/O overhead (mostly wall clock time - CPU time) as the input size gets large
+\begin{figure}[htb]
+    \begin{minipage}{0.475 \textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./res/plot_normality.pdf}
+        \caption{}
+        \label{fig:plot_normality.pdf}
+    \end{minipage}
+\end{figure}
+
+\paragraph*{Analyzing I/O Overhead as the Input Size Increases}
+The proportion of total run time vs CPU run time increases as the input size gets large. This is due to waiting for I/O operations to complete and shown in Figures
+\ref{fig:overhead.pdf} and \ref{fig:overhead_ratio.pdf}.
+
+\begin{figure}[htb]
+    \begin{minipage}{0.475 \textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./res/overhead.pdf}
+        \caption{}
+        \label{fig:overhead.pdf}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[htb]
+    \begin{minipage}{0.475 \textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{./res/overhead_ratio.pdf}
+        \caption{}
+        \label{fig:overhead_ratio.pdf}
+    \end{minipage}
+\end{figure}
 % TODO
 
 \paragraph*{Optimizing Performance with a Fast In-Place Sorting Algorithm}
 We can outperform Classical Merge Sort on some instances by using Quick Sort for the internal sorting and provide statistical evidence below.
-We will show that Exeternal Memory Merge Sort with Quick Sort for the in-place sorting < Classical Merge Sort < External Memory Merge Sort with Classical Merge Sort for the in-place sorting.
+We will show that External Memory Merge Sort with Quick Sort for the in-place sorting < Classical Merge Sort < External Memory Merge Sort with Classical Merge Sort for the in-place sorting.
 % TODO
 
 \paragraph*{Optimizing Performance with a Large Block Size}
@@ -402,12 +429,13 @@ We will see if choosing a comparison function fit for the binary format of the i
 in the External Memory Merge Sort in-place sorting phase.
 % TODO
 
-\paragraph*{Optimizing Performance with even better Compiler Optimizations}
+\paragraph*{Optimizing Performance with Better Compiler Optimizations}
 We will see if an enhanced compiler optimization strategy improves the run times.
 gcc -O3 vs gcc -O3 -marchnative...
 % TODO
 
-\paragraph*{Optimizing Performance by changing the Computing Environment}
+\paragraph*{Optimizing Performance by Changing the Computing Environment}
+It is clear that the computing environment must have an influence on the performance.
 We observe significant differences of run times between different computing environments.
 % Additionally, we use different computers to hedge our findings against random influences specific to a computer
 % TODO
