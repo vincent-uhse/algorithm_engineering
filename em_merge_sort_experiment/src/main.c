@@ -851,14 +851,17 @@ void perform_analysis() {
    */
 
   // Set for the block_size multiple of system storage block size analysis
-  /*
-    int num_different_files = 100;
-    int num_runs_on_file = 40;
-    long input_sizes[] = {100000, 10000};  // 1000000
-    int block_sizes[] = {4096 * 4 - 1, 4096 * 4, 4096 * 4 + 1};
-    int max_classical = 10000000;
-    int internal_sort_options[] = {1};
-  */
+
+  int num_different_files = 10;
+  int num_runs_on_file = 40;
+  long input_sizes[] = {1000000, 100000}; // 1000000
+  int block_sizes[] = {
+      10000, 100000,
+      1000000}; // Use for compiler strategy analysis & environments analysis
+  // {4096 * 4 - 1, 4096 * 4, 4096 * 4 + 1};  //
+  // Use for the block size multiples of storage block size analysis
+  int max_classical = 10000000;
+  int internal_sort_options[] = {1};
 
   // Set for the long analysis: 0.4GB, 2GB, 4GB, 40GB (RAM 4GB on ThinkPad
   // Remote)
