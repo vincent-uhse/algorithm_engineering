@@ -410,36 +410,30 @@ The proportion of total run time vs CPU run time increases as the input size get
         \label{fig:overhead_ratio.pdf}
     \end{minipage}
 \end{figure}
-% TODO
 
 \paragraph*{Optimizing Performance with a Fast In-Place Sorting Algorithm}
 We can outperform Classical Merge Sort on some instances by using Quick Sort for the internal sorting and provide statistical evidence below.
 We will show that External Memory Merge Sort with Quick Sort for the in-place sorting < Classical Merge Sort < External Memory Merge Sort with Classical Merge Sort for the in-place sorting.
 % TODO
-
+\paragraph*{Optimizing Performance with a Binary Comparison Function}
+We will see if choosing a comparison function fit for the binary format of the input data can outperform a naive implementation of the comparison function that Quick Sort uses
+in the External Memory Merge Sort in-place sorting phase.
+% TODO
+\paragraph*{Optimizing Performance with Additional Compiler Optimizations}
+We will see if an enhanced compiler optimization strategy improves the run times.
+gcc -O3 vs gcc -O3 -marchnative...
+% TODO
+\paragraph*{Optimizing Performance by Changing the Computing Environment}
+It is clear that the computing environment must have an influence on the performance.
+We observe significant differences of run times between different computing environments.
+% Additionally, we use different computers to hedge our findings against random influences specific to a computer
+% TODO
 \paragraph*{Optimizing Performance with a Large Block Size}
 We want to do as little I/O operations as possible, due to their slowness. Since External Memory Merge Sort is supposed to be applied to data sets larger than the available internal memory,
 we have to accept the cost of I/O operations at some point. Nevertheless, large block sizes allow for less I/O operations. In the inital partitioning phase, we benefit from internal sortation
 in greater proportion relative to I/O operations and we need less merge rounds in the following merging phase.
 The evidence from experiments is shown below.
 % TODO
-
-\paragraph*{Optimizing Performance with a Binary Comparison Function}
-We will see if choosing a comparison function fit for the binary format of the input data can outperform a naive implementation of the comparison function that Quick Sort uses
-in the External Memory Merge Sort in-place sorting phase.
-% TODO
-
-\paragraph*{Optimizing Performance with Better Compiler Optimizations}
-We will see if an enhanced compiler optimization strategy improves the run times.
-gcc -O3 vs gcc -O3 -marchnative...
-% TODO
-
-\paragraph*{Optimizing Performance by Changing the Computing Environment}
-It is clear that the computing environment must have an influence on the performance.
-We observe significant differences of run times between different computing environments.
-% Additionally, we use different computers to hedge our findings against random influences specific to a computer
-% TODO
-
 \paragraph*{Optimizing Performance with Block Size Multiples Relative to Underlying Storage Block Size}
 \label{par:storage_block_size}
 Factors such as storage block size, data distribution, and access patterns can significantly impact the optimal block size for a given scenario.
@@ -538,7 +532,7 @@ The distribution shift that results from the different block sizes is visualized
 
 To solidify our understanding of this behaviour, we do hypothesis tests (\( t \)-tests) regarding block size comparisons and report the \( p \)-value to determine significance and Cohen's \( d \) for the effect size.
 We can deviate from the data normality assumption since we have large samples sizes.
-With \( 40 \) runs on \( 100 \) random files, these are (\(40 > 30 \)) for each file, and (\(4\,000 > 30 \)) for the global analyses.
+With \( 40 \) runs on \( 100 \) random files, these sample sizes are (\(40 > 30 \)) for each file, and (\(4\,000 > 30 \)) for the global analyses.
 According to the Central Limit Theorem, even if the underlying data is not normally distributed, the distribution of sample means will tend to be approximately normal, hence the
 distribution of differences of sample means will follow a \( t \) distribution.
 Additionally, we can assume that any two run times are independent of each other, signifying the absence of any "lasting effects" from one run on ensuing ones.
